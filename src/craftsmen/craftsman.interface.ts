@@ -1,5 +1,5 @@
 export interface Craftsman {
-    id: string;
+    id: number;
     login: string;
     password: string;
     companyName: string;

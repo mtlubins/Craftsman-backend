@@ -1,24 +1,24 @@
 import {Component} from '@nestjs/common';
 import {Craftsman} from './craftsman.interface';
+import {craftsmen} from '../CraftsmenMockData';
 @Component()
 export class CraftsmenService {
     private tempCraftsman: Craftsman = {
-        id: 'dupa',
+        id: 222,
         login: 'dupa',
         password: 'dupa',
         companyName: 'dupa',
     };
-    private readonly craftsmen: Craftsman[] = [];
     constructor() {
-        this.craftsmen.push(this.tempCraftsman);
+        craftsmen.push(this.tempCraftsman);
     }
 
     async findAll(): Promise<Craftsman[]> {
-        return this.craftsmen;
+        return craftsmen;
     }
 
     async create(craftsman: Craftsman) {
-        this.craftsmen.push(craftsman);
+        craftsmen.push(craftsman);
     }
 
     getRandomInt(min, max) {
