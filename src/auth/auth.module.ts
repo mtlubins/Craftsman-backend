@@ -1,11 +1,18 @@
-import {Module} from '@nestjs/common';
+import * as passport from 'passport';
+import { JwtStrategy } from './passport/jwt.strategy';
+import {MiddlewaresConsumer, Module, NestModule, RequestMethod} from '@nestjs/common';
 import {AuthController} from './auth.controller';
 import {AuthService} from './auth.service';
 
-@Module({
-    controllers: [AuthController],
-    components: [AuthService]
-})
-export class AuthModule {
 
+@Module({
+    components: [AuthService, JwtStrategy],
+    controllers: [AuthController],
+})
+export class AuthModule implements NestModule {
+    public configure(consumer: MiddlewaresConsumer) {
+        consumer
+            .apply(passport.authenticate('jwt', { session: false }))
+            .forRoutes({ path: '/auth/dupa', method: RequestMethod.ALL });
+    }
 }

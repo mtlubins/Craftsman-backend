@@ -1,13 +1,14 @@
-import {Component} from '@nestjs/common';
+import {Component, HttpException} from '@nestjs/common';
 import {craftsmen} from '../CraftsmenMockData';
 import * as jwt from 'jsonwebtoken';
+import {Craftsman} from '../craftsmen/craftsman.interface';
 
 @Component()
 export class AuthService {
     async createToken(customerCredentials) {
         const user = craftsmen[craftsmen.findIndex( item => item.login === customerCredentials.login)];
         if (!user) {
-                return 5;
+            throw new HttpException('noł juser', 401);
         }
         if (user.password === customerCredentials.password){
             const expiresIn = 60 * 60, secretOrKey = 'secret';
@@ -18,7 +19,18 @@ export class AuthService {
                 access_token: token,
             };
         } else {
-            return 6;
+            throw new HttpException('zły pasłord', 401);
         }
+    }
+    async validateUser(signedUser): Promise<boolean> {
+        if (signedUser && signedUser.id) {
+            return Boolean(craftsmen[craftsmen.findIndex( item => item.id === signedUser.id)]);
+        }
+        return false;
+    }
+
+    async getAuthorizedUser(userId): Promise<Craftsman> {
+        console.log(userId);
+        return await craftsmen[craftsmen.findIndex( item => item.id === userId)];
     }
 }

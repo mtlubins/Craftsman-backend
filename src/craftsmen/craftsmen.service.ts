@@ -3,15 +3,6 @@ import {Craftsman} from './craftsman.interface';
 import {craftsmen} from '../CraftsmenMockData';
 @Component()
 export class CraftsmenService {
-    private tempCraftsman: Craftsman = {
-        id: 222,
-        login: 'dupa',
-        password: 'dupa',
-        companyName: 'dupa',
-    };
-    constructor() {
-        craftsmen.push(this.tempCraftsman);
-    }
 
     async findAll(): Promise<Craftsman[]> {
         return craftsmen;

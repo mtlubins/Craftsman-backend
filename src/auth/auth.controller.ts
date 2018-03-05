@@ -1,4 +1,4 @@
-import {Body, Controller, HttpException, Post} from '@nestjs/common';
+import {Body, Controller, Get, Next, Post, Req} from '@nestjs/common';
 import {AuthService} from './auth.service';
 
 @Controller('auth')
@@ -7,13 +7,12 @@ export class AuthController {
 
     @Post('token')
     public async getToken(@Body() customerCredentials) {
-        const response = await this.authService.createToken(customerCredentials);
-        if (response === 5) {
-            throw new HttpException('noł juser', 401);
-        }
-        if (response === 6) {
-            throw new HttpException('zły pasłord', 401);
-        }
-        return response;
+        return await this.authService.createToken(customerCredentials);
+    }
+
+    @Get('dupa')
+    public async getDupa(@Req() request) {
+        console.log(request.user);
+        return await this.authService.getAuthorizedUser(request.user);
     }
 }
