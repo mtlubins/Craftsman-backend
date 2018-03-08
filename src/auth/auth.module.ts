@@ -4,15 +4,15 @@ import {MiddlewaresConsumer, Module, NestModule, RequestMethod} from '@nestjs/co
 import {AuthController} from './auth.controller';
 import {AuthService} from './auth.service';
 
-
 @Module({
     components: [AuthService, JwtStrategy],
     controllers: [AuthController],
+    exports: [AuthService]
 })
 export class AuthModule implements NestModule {
     public configure(consumer: MiddlewaresConsumer) {
         consumer
             .apply(passport.authenticate('jwt', { session: false }))
-            .forRoutes({ path: '/auth/dupa', method: RequestMethod.ALL });
+            .forRoutes({ path: '/craftsmen/me', method: RequestMethod.ALL });
     }
 }

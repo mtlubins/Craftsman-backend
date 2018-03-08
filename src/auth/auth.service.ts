@@ -31,6 +31,6 @@ export class AuthService {
 
     async getAuthorizedUser(userId): Promise<Craftsman> {
         console.log(userId);
-        return await craftsmen[craftsmen.findIndex( item => item.id === userId)];
+        return craftsmen[craftsmen.findIndex( item => item.id === userId)];
     }
 }

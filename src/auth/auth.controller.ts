@@ -9,10 +9,4 @@ export class AuthController {
     public async getToken(@Body() customerCredentials) {
         return await this.authService.createToken(customerCredentials);
     }
-
-    @Get('dupa')
-    public async getDupa(@Req() request) {
-        console.log(request.user);
-        return await this.authService.getAuthorizedUser(request.user);
-    }
 }

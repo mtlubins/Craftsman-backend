@@ -1,8 +1,14 @@
-import { Module } from '@nestjs/common';
+import {MiddlewaresConsumer, Module, NestModule, RequestMethod} from '@nestjs/common';
 import {CraftsmenModule} from './craftsmen/craftsmen.module';
-import {AuthModule} from './auth/auth.module';
+import {CorsMiddleware} from './cors.middleware';
 
 @Module({
-  imports: [CraftsmenModule, AuthModule]
+  imports: [CraftsmenModule]
 })
-export class ApplicationModule {}
+export class ApplicationModule implements NestModule {
+    public configure(consumer: MiddlewaresConsumer) {
+        consumer
+            .apply(CorsMiddleware)
+            .forRoutes({ path: '*', method: RequestMethod.ALL });
+    }
+}

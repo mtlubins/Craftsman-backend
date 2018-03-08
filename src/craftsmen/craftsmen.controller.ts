@@ -1,14 +1,22 @@
-import {Controller, HttpStatus, Res, Get, Post, Body} from '@nestjs/common';
+import {Controller, HttpStatus, Res, Get, Post, Body, Req} from '@nestjs/common';
 import {CraftsmenService} from './craftsmen.service';
 import {Craftsman} from './craftsman.interface';
+import {AuthService} from '../auth/auth.service';
 
 @Controller('craftsmen')
 export class CraftsmenController {
-    constructor(private craftsmenService: CraftsmenService) {}
+    constructor(private craftsmenService: CraftsmenService,
+                private  authService: AuthService) {}
 
     @Get()
     async findAll(): Promise<Craftsman[]> {
         return await this.craftsmenService.findAll();
+    }
+
+    @Get('me')
+    async getCraftsman(@Req() req): Promise<Craftsman> {
+        console.log(req.user);
+        return await this.authService.getAuthorizedUser(req.user);
     }
 
     @Post()
