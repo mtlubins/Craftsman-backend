@@ -1,6 +1,6 @@
 import {Controller, HttpStatus, Res, Get, Post, Body, Req} from '@nestjs/common';
 import {CraftsmenService} from './craftsmen.service';
-import {Craftsman} from './craftsman.interface';
+import {ICraftsman} from './craftsman.interface';
 import {AuthService} from '../auth/auth.service';
 
 @Controller('craftsmen')
@@ -9,18 +9,18 @@ export class CraftsmenController {
                 private  authService: AuthService) {}
 
     @Get()
-    async findAll(): Promise<Craftsman[]> {
+    async findAll(): Promise<ICraftsman[]> {
         return await this.craftsmenService.findAll();
     }
 
     @Get('me')
-    async getCraftsman(@Req() req): Promise<Craftsman> {
+    async getCraftsman(@Req() req): Promise<ICraftsman> {
         console.log(req.user);
         return await this.authService.getAuthorizedUser(req.user);
     }
 
     @Post()
-    async create(@Res() response, @Body() craftsmanToCreate: Craftsman) {
+    async create(@Res() response, @Body() craftsmanToCreate: ICraftsman) {
         const newCraftsman = Object.assign({}, craftsmanToCreate, {id: this.craftsmenService.getRandomInt(0, 100)});
         await this.craftsmenService.create(newCraftsman);
         response.status(HttpStatus.CREATED).send();

@@ -1,4 +1,4 @@
-export interface Craftsman {
+export interface ICraftsman {
     id: number;
     login: string;
     password: string;

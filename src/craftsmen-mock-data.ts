@@ -1,6 +1,6 @@
-import {Craftsman} from './craftsmen/craftsman.interface';
+import {ICraftsman} from './craftsmen/craftsman.interface';
 
-export const craftsmen: Craftsman[] = [
+export const craftsmen: ICraftsman[] = [
     {
         id: 666,
         login: 'test',

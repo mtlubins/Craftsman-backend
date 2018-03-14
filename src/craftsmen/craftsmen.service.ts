@@ -1,14 +1,14 @@
 import {Component} from '@nestjs/common';
-import {Craftsman} from './craftsman.interface';
-import {craftsmen} from '../CraftsmenMockData';
+import {ICraftsman} from './craftsman.interface';
+import {craftsmen} from '../craftsmen-mock-data';
 @Component()
 export class CraftsmenService {
 
-    async findAll(): Promise<Craftsman[]> {
+    async findAll(): Promise<ICraftsman[]> {
         return craftsmen;
     }
 
-    async create(craftsman: Craftsman) {
+    async create(craftsman: ICraftsman) {
         craftsmen.push(craftsman);
     }
 

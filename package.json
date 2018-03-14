@@ -2,9 +2,10 @@
   "name": "nest-typescript-starter",
   "version": "1.0.0",
   "description": "Nest TypeScript starter repository",
+  "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node index.js",
+    "start": "nodemon main",
     "start:watch": "nodemon",
     "prestart:prod": "tsc",
     "start:prod": "node dist/main.js"
