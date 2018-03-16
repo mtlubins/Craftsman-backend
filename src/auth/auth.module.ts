@@ -13,6 +13,6 @@ export class AuthModule implements NestModule {
     public configure(consumer: MiddlewaresConsumer) {
         consumer
             .apply(passport.authenticate('jwt', { session: false }))
-            .forRoutes({ path: '/craftsmen/me', method: RequestMethod.ALL });
+            .forRoutes({ path: '/craftsmen/me', method: RequestMethod.GET });
     }
 }
