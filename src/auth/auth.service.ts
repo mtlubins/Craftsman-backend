@@ -12,7 +12,7 @@ export class AuthService {
             throw new HttpException('noł juser', 401);
         }
         if (user.password === customerCredentials.password){
-            const expiresIn = 60 * 60, secretOrKey = 'secret';
+            const expiresIn = 30, secretOrKey = 'secret';
             const payload = {id: user.id};
             const token = jwt.sign(payload, secretOrKey, {expiresIn});
             return {
