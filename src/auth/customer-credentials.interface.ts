@@ -1,4 +1,4 @@
 export class ICustomerCredentials {
-    login: string;
+    email: string;
     password: string;
 }

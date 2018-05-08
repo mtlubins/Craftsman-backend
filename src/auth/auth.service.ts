@@ -3,11 +3,15 @@ import {craftsmen} from '../craftsmen-mock-data';
 import * as jwt from 'jsonwebtoken';
 import {ICraftsman} from '../craftsmen/craftsman.interface';
 import {ICustomerCredentials} from './customer-credentials.interface';
+import {UserService} from '../user/user.service';
 
 @Component()
 export class AuthService {
+    constructor(private userService: UserService) {}
+
     async createToken(customerCredentials: ICustomerCredentials) {
-        const user = craftsmen[craftsmen.findIndex( item => item.login === customerCredentials.login)];
+        const user = await this.userService.findUser(customerCredentials.email);
+        console.log(user);
         if (!user) {
             throw new HttpException('noł juser', 401);
         }
@@ -16,7 +20,6 @@ export class AuthService {
             const payload = {id: user.id};
             const token = jwt.sign(payload, secretOrKey, {expiresIn});
             return {
-                expires_in: expiresIn,
                 access_token: token,
             };
         } else {
@@ -24,15 +27,11 @@ export class AuthService {
         }
     }
     async validateUser(signedUser): Promise<boolean> {
+        console.log('validateUser');
         console.log(signedUser);
-        if (signedUser && signedUser.id) {
-            return Boolean(craftsmen[craftsmen.findIndex( item => item.id === signedUser.id)]);
+        if (signedUser) {
+            return Boolean(await this.userService.findUser({id: signedUser}));
         }
         return false;
-    }
-
-    async getAuthorizedUser(userId): Promise<ICraftsman> {
-        console.log(userId);
-        return craftsmen[craftsmen.findIndex( item => item.id === userId)];
     }
 }

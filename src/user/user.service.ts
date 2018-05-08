@@ -17,9 +17,16 @@ export class UserService {
         const newUser = new User();
         newUser.firstName = userData.firstName;
         newUser.lastName = userData.lastName;
-        newUser.age = userData.age;
-        console.log('data from bnew user');
-        console.log(newUser);
-        console.log(this.userRepository.create(newUser));
+        newUser.email = userData.email;
+        newUser.password = userData.password;
+        newUser.phone = userData.phone;
+        newUser.city = userData.city;
+        newUser.street = userData.street;
+        newUser.terms = userData.terms;
+        await this.userRepository.save(newUser);
+    }
+
+    async findUser(any): Promise<User> { // RORO HERE
+        return await this.userRepository.findOne(any);
     }
 }

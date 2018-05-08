@@ -7,6 +7,7 @@ export class AuthController {
 
     @Post('login')
     public async getToken(@Body() customerCredentials) {
+        console.log(customerCredentials);
         return await this.authService.createToken(customerCredentials);
     }
 

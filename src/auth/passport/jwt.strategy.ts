@@ -24,6 +24,6 @@ export class JwtStrategy extends Strategy {
             console.log('k: ' + k);
         }
         console.log('payload: ' + payload.id);
-        done(null, payload.id);
+        done(null, payload);
     }
 }
