@@ -14,9 +14,8 @@ export class CraftsmenController {
     }
 
     @Get('me')
-    async getCraftsman(@Req() req): Promise<ICraftsman> {
+    async getCraftsman(@Req() req): Promise<any> {
         console.log(req.user);
-        return await this.authService.getAuthorizedUser(req.user);
     }
 
     @Post()

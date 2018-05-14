@@ -20,9 +20,6 @@ export class JwtStrategy extends Strategy {
         if (!isValid) {
             return done('Unauthorized', false);
         }
-        for(let k in payload) {
-            console.log('k: ' + k);
-        }
-        done(null, payload.id);
+        done(null, payload);
     }
 }
