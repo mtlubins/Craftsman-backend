@@ -7,10 +7,10 @@ export class AuthController {
 
     @Post('login')
     public async getToken(@Body() customerCredentials) {
-        console.log(customerCredentials);
         return await this.authService.createToken(customerCredentials);
     }
 
+    // Error handling test endpoint
     @Get('error')
     public async sendError() {
         throw await new HttpException('Error gurwa', 500);

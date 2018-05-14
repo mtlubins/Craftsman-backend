@@ -1,19 +1,19 @@
-import {Component, HttpException} from '@nestjs/common';
-import {craftsmen} from '../craftsmen-mock-data';
+import {Component, forwardRef, HttpException, Inject} from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
-import {ICraftsman} from '../craftsmen/craftsman.interface';
 import {ICustomerCredentials} from './customer-credentials.interface';
 import {UserService} from '../user/user.service';
 
 @Component()
 export class AuthService {
-    constructor(private userService: UserService) {}
+    constructor(
+        @Inject(forwardRef(() => UserService))
+        private userService: UserService,
+    ) {}
 
     async createToken(customerCredentials: ICustomerCredentials) {
-        const user = await this.userService.findUser(customerCredentials.email);
-        console.log(user);
+        const user = await this.userService.findUser({ email: customerCredentials.email});
         if (!user) {
-            throw new HttpException('noł juser', 401);
+            throw new HttpException('Nieprawidłowy login lub hasło', 401);
         }
         if (user.password === customerCredentials.password){
             const expiresIn = 60 * 60, secretOrKey = 'secret';
@@ -21,16 +21,18 @@ export class AuthService {
             const token = jwt.sign(payload, secretOrKey, {expiresIn});
             return {
                 access_token: token,
+                user_data: {
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                }
             };
         } else {
-            throw new HttpException('zły pasłord', 401);
+            throw new HttpException('Nieprawidłowy login lub hasło', 401);
         }
     }
-    async validateUser(signedUser): Promise<boolean> {
-        console.log('validateUser');
-        console.log(signedUser);
-        if (signedUser) {
-            return Boolean(await this.userService.findUser({id: signedUser}));
+    async validateUser(userPayload): Promise<boolean> {
+        if (userPayload && userPayload.id) {
+            return Boolean(await this.userService.findUser({id: userPayload.id}));
         }
         return false;
     }

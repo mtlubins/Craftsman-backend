@@ -14,6 +14,7 @@ export class UserService {
     async createUser(userData: User) {
         console.log('data from body');
         console.log(userData);
+        // ale tu jest chujowo zrobione 8=D
         const newUser = new User();
         newUser.firstName = userData.firstName;
         newUser.lastName = userData.lastName;
