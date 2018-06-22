@@ -16,7 +16,7 @@ export class AuthService {
             throw new HttpException('Nieprawidłowy login lub hasło', 401);
         }
         if (user.password === customerCredentials.password){
-            const expiresIn = 30, secretOrKey = 'secret';
+            const expiresIn = 3600, secretOrKey = 'secret';
             const payload = {id: user.id};
             const token = jwt.sign(payload, secretOrKey, {expiresIn});
             return {

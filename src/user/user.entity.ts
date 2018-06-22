@@ -28,4 +28,7 @@ export class User {
 
     @Column()
     terms: boolean;
+
+    @Column()
+    craftsmen: boolean;
 }

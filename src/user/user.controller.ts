@@ -27,7 +27,7 @@ export class UserController {
             .createToken({email: userToCreate.email,
                 password: userToCreate.password}));
         // A tutej jak ridżekt to jakiś inny http status
-        // Tylko jak tu zrobić didżekt maaaaan?
+        // Tylko jak tu zrobić ridżekt maaaaan?
         //  ZNOWU NIE MA ERROR HANDLING HELOŁ?
     }
 }

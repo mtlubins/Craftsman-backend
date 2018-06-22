@@ -24,6 +24,7 @@ export class UserService {
         newUser.city = userData.city;
         newUser.street = userData.street;
         newUser.terms = userData.terms;
+        newUser.craftsmen = userData.craftsmen;
         await this.userRepository.save(newUser);
     }
 
