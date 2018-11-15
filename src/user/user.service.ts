@@ -11,20 +11,9 @@ export class UserService {
         return await this.userRepository.find();
     }
 
-    async createUser(userData: User) {
-        console.log('data from body');
-        console.log(userData);
-        const newUser = new User();
-        newUser.firstName = userData.firstName;
-        newUser.lastName = userData.lastName;
-        newUser.email = userData.email;
-        newUser.password = userData.password;
-        newUser.phone = userData.phone;
-        newUser.city = userData.city;
-        newUser.street = userData.street;
-        newUser.terms = userData.terms;
-        newUser.craftsmen = userData.craftsmen;
-        await this.userRepository.save(newUser);
+    createUser(userData: User): Promise<any> {
+        const newUser = new User(userData);
+        return this.userRepository.save(newUser);
     }
 
     async findUser(any): Promise<User> { // RORO HERE

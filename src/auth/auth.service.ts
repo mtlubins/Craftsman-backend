@@ -20,11 +20,7 @@ export class AuthService {
             const payload = {id: user.id};
             const token = jwt.sign(payload, secretOrKey, {expiresIn});
             return {
-                access_token: token,
-                user_data: {
-                    firstName: user.firstName,
-                    lastName: user.lastName
-                }
+                access_token: token
             };
         } else {
             throw new HttpException('Nieprawidłowy login lub hasło', 401);

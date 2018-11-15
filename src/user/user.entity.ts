@@ -31,4 +31,8 @@ export class User {
 
     @Column()
     craftsmen: boolean;
+
+    constructor(obj?: User) {
+        Object.assign(this, obj);
+    }
 }

@@ -1,4 +1,4 @@
-import {Body, Controller, forwardRef, Get, HttpStatus, Inject, Post, Req, Res} from '@nestjs/common';
+import {Body, Controller, forwardRef, Get, HttpException, HttpStatus, Inject, Post, Req, Res} from '@nestjs/common';
 import {UserService} from './user.service';
 import {User} from './user.entity';
 import {AuthService} from '../auth/auth.service';
@@ -20,14 +20,17 @@ export class UserController {
     }
 
     @Post()
-    async createUser(@Res() response, @Body() userToCreate: User) {
+    createUser(@Res() response, @Body() userToCreate: User) {
         // Tutej jeszcze będzie strażnik (chyba middleware), który będzie validował body
-        await this.userService.createUser(userToCreate);
-        await response.status(HttpStatus.CREATED).send(await this.authService
-            .createToken({email: userToCreate.email,
-                password: userToCreate.password}));
-        // A tutej jak ridżekt to jakiś inny http status
-        // Tylko jak tu zrobić ridżekt maaaaan?
-        //  ZNOWU NIE MA ERROR HANDLING HELOŁ?
+        this.userService.createUser(userToCreate)
+            .then(async () => {
+                response.status(HttpStatus.CREATED).send(
+                    await this.authService.createToken({
+                        email: userToCreate.email,
+                        password: userToCreate.password
+                    }));
+            }, () => {
+                throw new HttpException('Błąd podczas rejestracji. Proszę spróbować ponownie.', 401);
+            });
     }
 }
